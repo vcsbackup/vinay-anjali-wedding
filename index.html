@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinay & Anjali | Wedding Invitation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&family=Great+Vibes&display=swap');
+
+:root{
+  --ruby: #74152d; 
+  --ruby-dark: #360914; 
+  --gold: #d7ae5d;
+  --cream: #fff8ea; 
+  --wood: #4b3025; 
+  --orange: #b85f35;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:"DM Sans",sans-serif;background:var(--cream);color:#3d2923}
+
+/* Prevent image dragging and selection globally */
+img {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ================= COVER ================= */
+#cover{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(218,177,92,.16),transparent 35%),
+    linear-gradient(135deg,#17070c,#5d1025 48%,#210a10);
+  transition:opacity .8s ease,visibility .8s ease;
+}
+#cover.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+.cover-inner{
+  width:min(680px,90vw);
+  text-align:center;
+  animation:appear 1.2s ease;
+}
+@keyframes appear{from{opacity:0;transform:translateY(25px) scale(.97)}to{opacity:1;transform:none}}
+
+.cover-caption{
+  color:#ead49a;font-size:9px;letter-spacing:4px;margin-bottom:20px;
+}
+.invitation-wrap{
+  position:relative;
+  display:inline-block;
+  width:min(620px,88vw);
+  cursor:pointer;
+  filter:drop-shadow(0 30px 45px rgba(0,0,0,.5));
+  transition:transform .45s ease,filter .45s ease;
+}
+.invitation-wrap:hover{
+  transform:translateY(-8px) scale(1.01);
+  filter:drop-shadow(0 38px 55px rgba(0,0,0,.6));
+}
+.invitation-wrap img{
+  width:100%;display:block;
+  border-radius:3px;
+}
+.cover-glow{
+  position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 50px rgba(255,220,135,.08);
+}
+
+.open-hint{
+  margin-top:22px;color:#fff1d0;
+  font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{50%{opacity:.45}}
+.cover-names{
+  margin-top:13px;color:#fff8e9;
+  font:30px "Great Vibes";
+}
+
+/* click transition */
+#cover.opening .invitation-wrap{
+  animation:openCard 1.25s cubic-bezier(.2,.75,.15,1) forwards;
+}
+#cover.opening .cover-caption,
+#cover.opening .open-hint,
+#cover.opening .cover-names{opacity:0;transition:.25s}
+@keyframes openCard{
+  0%{transform:scale(1)}
+  45%{transform:scale(1.06) rotateX(8deg)}
+  100%{transform:scale(1.32) rotateX(-10deg);opacity:0}
+}
+
+/* ================= SITE ================= */
+#site{
+  position:fixed;inset:0;
+  transform:translateY(100%);
+  transition:transform 1s cubic-bezier(.15,.8,.2,1);
+  background:var(--cream);
+}
+#site.show{transform:translateY(0)}
+
+header{
+  position:fixed;z-index:20;top:0;left:0;right:0;height:68px;
+  display:flex;align-items:center;
+  background:rgba(255,250,239,.94);
+  border-bottom:1px solid rgba(190,145,70,.35);
+  backdrop-filter:blur(14px);
+}
+.logo{font:31px "Great Vibes";color:var(--ruby);margin-left:25px}
+nav{
+  width:100%;display:flex;justify-content:center;gap:28px;
+  padding:0 22px;overflow-x:auto;
+}
+nav button{
+  background:none;border:0;border-bottom:1px solid transparent;
+  padding:8px 0;white-space:nowrap;
+  color:var(--wood);font-size:8px;letter-spacing:1.7px; cursor:pointer;
+}
+nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
+
+.page{
+  position:absolute;inset:0;
+  padding:90px 6% 70px;
+  display:none;align-items:center;justify-content:center;
+}
+.page.active{display:flex}
+
+/* Translucent Photo Background for Home with 0.55 Opacity */
+#home {
+  background: 
+    linear-gradient(rgba(255, 248, 234, 0.55), rgba(255, 248, 234, 0.55)),
+    url('photo_x.jpg') center/cover no-repeat;
+}
+
+.content{
+  width:min(1120px,94vw);
+  max-height:calc(100vh - 140px);
+  overflow:auto;
+  scrollbar-width: none;
+}
+.content::-webkit-scrollbar { display: none; }
+
+.eyebrow{
+  text-align:center;font-size:8px;letter-spacing:4px;color:#a47735; text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+}
+h2{
+  font:56px "Cormorant Garamond";font-weight:500;
+  text-align:center;color:var(--wood);margin:2px 0;
+}
+h3.section-subtitle{
+  font:32px "Cormorant Garamond";font-weight:500;
+  text-align:center;color:var(--ruby);margin:25px 0 10px;
+}
+.rule{width:55px;height:1px;background:var(--gold);margin:13px auto 20px;box-shadow: 0 1px 2px rgba(255,255,255,0.8);}
+.lead{
+  max-width:680px;margin:auto;text-align:center;
+  font-size:12px;line-height:1.9;color:#77665d;
+}
+
+/* Home */
+.home{text-align:center}
+.home h1{
+  font:clamp(78px,13vw,150px) "Great Vibes";color:var(--ruby);margin:0;
+  text-shadow: 0 3px 12px rgba(255, 248, 234, 0.95), 0 1px 3px rgba(0,0,0,0.1);
+}
+.place{
+  font:27px "Cormorant Garamond";letter-spacing:5px;color:var(--wood);
+  text-shadow: 0 2px 6px rgba(255, 248, 234, 0.95);
+}
+.script{
+  font:28px "Great Vibes";color:var(--orange);margin-top:13px;
+  text-shadow: 0 2px 6px rgba(255, 248, 234, 0.95);
+}
+.pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.pill{
+  padding:11px 17px;border:1px solid #c39b5088;
+  background:rgba(255, 253, 246, 0.92);color:var(--ruby);
+  font-size:9px;letter-spacing:1.5px;
+  box-shadow: 0 4px 15px rgba(75, 48, 37, 0.12);
+}
+
+/* ================= SCRATCH & COUNTDOWN ================= */
+.interactive-zone {
+  display: flex; flex-direction: column; align-items: center; gap: 30px; margin: 20px 0;
+}
+.scratch-container {
+  position: relative; width: min(340px, 90vw); height: 160px;
+  border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  background: #fffdf6; border: 2px solid var(--gold);
+}
+.scratch-reveal-text {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.scratch-reveal-text h4 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; color: var(--ruby); margin: 0; line-height: 1; }
+.scratch-reveal-text span { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--wood); margin-top: 5px; }
+
+canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; z-index: 4; }
+
+.countdown{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.count{
+  min-width:85px;padding:12px 10px;text-align:center;
+  background:#fffdf7;border:1px solid #c49a4d66; border-radius: 8px;
+}
+.count strong{display:block;font:31px "Cormorant Garamond";color:var(--ruby)}
+.count span{font-size:8px;letter-spacing:2px;color:#77665d}
+
+/* Uniform Cards Layout */
+.cards,.weddingGrid,.engagementGrid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:22px;margin-top:15px;margin-bottom:30px;
+}
+.infoCard,.wCard{
+  min-height:260px;padding:28px;text-align:center;
+  position:relative;background:#fffdf7;
+  border:1px solid #c49a4d77;
+  box-shadow:0 18px 45px #4c302516;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+}
+.infoCard:before,.wCard:before{
+  content:"";position:absolute;inset:10px;
+  border:1px dashed #c49a4d66;pointer-events:none;
+}
+.icon,.cross{font-size:26px;color:var(--gold)}
+.infoCard h3,.wCard h3{
+  font:38px "Cormorant Garamond";font-weight:500;
+  color:var(--wood);margin:3px
+}
+.infoCard b,.wCard b{
+  font-size:10px;letter-spacing:1.5px;color:var(--ruby);margin:6px 0;
+}
+.infoCard p,.wCard p{
+  font:15px/1.6 "Cormorant Garamond";
+  color:#77665d;max-width:430px;margin:6px auto
+}
+
+.verse{font-style:italic;color:var(--ruby);font-family:"Cormorant Garamond", serif;font-size:15px;text-align:center;margin:10px 0;}
+.family-details{font-size:11.5px;margin:10px 0;line-height:1.5;color:var(--wood);text-align:center;}
+
+/* Timeline */
+.timeline{max-width:780px;margin:25px auto 10px;border-left:1px solid #bd914b88}
+.event{position:relative;padding:0 0 24px 30px}
+.event:before{
+  content:"";position:absolute;left:-6px;top:4px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--ruby);box-shadow:0 0 0 5px #c49a4d22
+}
+.event h3{font:28px "Cormorant Garamond";font-weight:500;margin:0;color:var(--wood)}
+.event b{font-size:9.5px;letter-spacing:1.5px;color:var(--ruby);display:block;margin:3px 0}
+.event p{font-size:12px;color:#77665d;margin:4px 0}
+
+.mapBtn{
+  display:inline-block;padding:9px 15px;
+  border:1px solid var(--ruby);color:var(--ruby);
+  font-size:8.5px;letter-spacing:2px; text-decoration: none;
+  margin-top:8px;
+}
+.mapBtn:hover{background:var(--ruby);color:#fff}
+
+/* Gallery */
+.gallery{
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  grid-template-rows:185px 185px;gap:8px;margin-top:25px
+}
+.g{
+  display:grid;place-items:center;position:relative;
+  background:linear-gradient(155deg,#fffdf7 0%,#fbf1de 100%);
+  border:1px solid rgba(215,174,93,.5);
+  box-shadow:0 12px 26px rgba(75,48,37,.08);
+  cursor:pointer;
+  overflow:hidden;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease;
+}
+.g:before{content:"";position:absolute;inset:9px;border:1px dashed rgba(215,174,93,.8);z-index:2;pointer-events:none}
+.g:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 20px 36px rgba(75,48,37,.14)}
+.g:first-child{grid-row:span 2}
+.g:nth-child(4){grid-column:span 2}
+
+.g img, .largePhoto img {
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
+}
+
+/* Bottom controls */
+.bottom{
+  position:fixed;z-index:21;bottom:12px;left:50%;
+  transform:translateX(-50%);
+  display:flex;align-items:center;gap:9px
+}
+.bottom button{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid #c49a4d88;background:#fffaf1;color:var(--wood); cursor:pointer;
+}
+.dots{display:flex;gap:7px}
+.dot{width:5px;height:5px;border-radius:50%;background:#bd914b55;cursor:pointer}
+.dot.active{background:var(--ruby);transform:scale(1.5)}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;z-index:40;inset:0;background:#1c070cf5;
+  display:none;place-items:center
+}
+.lightbox.show{display:grid}
+.largePhoto{
+  width:min(800px,88vw);height:min(75vh,650px);
+  display:grid;place-items:center;position:relative;
+  background:linear-gradient(155deg,#fffdf7 0%,#fbf1de 100%);
+  border:1px solid rgba(215,174,93,.5);
+  overflow:hidden;
+}
+.largePhoto:before{content:"";position:absolute;inset:16px;border:1px dashed rgba(215,174,93,.8);z-index:2;pointer-events:none}
+.close{
+  position:absolute;right:20px;top:10px;color:white;
+  background:none;border:0;font-size:36px; cursor: pointer; z-index:50;
+}
+
+@media(max-width:800px){
+  header{height:62px}.logo{display:none}
+  nav{justify-content:flex-start;gap:21px;padding:0 17px}
+  .page{padding:77px 6% 60px}
+  .content{max-height:calc(100vh - 130px)}
+  h2{font-size:42px}
+  .cards,.weddingGrid,.engagementGrid{grid-template-columns:1fr}
+  .infoCard,.wCard{min-height:220px;padding:24px}
+  .script{font-size:55px}
+  .gallery{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:130px 130px 130px
+  }
+  .g:first-child,.g:nth-child(4){grid-row:auto;grid-column:auto}
+  .cover-caption{font-size:7px}
+  .cover-names{font-size:25px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= CLOSED INVITATION COVER ================= -->
+<section id="cover">
+  <div class="cover-inner">
+    <div class="cover-caption">AN INVITATION TO CELEBRATE</div>
+
+    <div class="invitation-wrap" id="invitation">
+      <img src="envelope.jpg" alt="Wedding Invitation Envelope" onerror="this.style.display='none'">
+      <div class="cover-glow"></div>
+    </div>
+
+    <div class="cover-names">Vinay &amp; Anjali</div>
+    <div class="open-hint">Tap the invitation to open</div>
+  </div>
+</section>
+
+<!-- ================= MAIN WEBPAGE ================= -->
+<main id="site">
+
+<header>
+  <div class="logo">V &amp; A</div>
+  <nav>
+    <button class="active" data-go="home">HOME</button>
+    <button data-go="date">SAVE THE DATE</button>
+    <button data-go="celebrations">CELEBRATIONS</button>
+    <button data-go="gallery">GALLERY</button>
+  </nav>
+</header>
+
+<section class="page active" id="home">
+  <div class="content home">
+    <div class="eyebrow">A BEAUTIFUL BEGINNING</div>
+    <h1>Vinay &amp; Anjali</h1>
+    <div class="place">KOCHI · KERALA</div>
+    <div class="rule"></div>
+    <div class="script">Two celebrations. One beautiful beginning.</div>
+    <div class="pills">
+      <div class="pill">ENGAGEMENT · 21 JANUARY 2027</div>
+      <div class="pill">WEDDING · 25 JANUARY 2027</div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="date">
+  <div class="content">
+    <div class="eyebrow">MARK YOUR CALENDAR</div>
+    <h2>Save the Date</h2>
+    <div class="rule"></div>
+    
+    <div class="interactive-zone">
+      <!-- Scratch Card -->
+      <div class="scratch-container" id="scratchBox">
+          <div class="scratch-reveal-text">
+              <h4>Vinay & Anjali</h4>
+              <span>21 JAN & 25 JAN 2027</span>
+          </div>
+          <canvas id="scratch-canvas" width="340" height="160"></canvas>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown">
+        <div class="count"><strong id="days">--</strong><span>DAYS</span></div>
+        <div class="count"><strong id="hours">--</strong><span>HOURS</span></div>
+        <div class="count"><strong id="mins">--</strong><span>MINUTES</span></div>
+        <div class="count"><strong id="secs">--</strong><span>SECONDS</span></div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <article class="infoCard">
+        <div class="icon">✦</div><h3>Engagement</h3>
+        <b>THURSDAY, 21 JANUARY 2027</b>
+        <p><b>Reception:</b> Bolgatty Palace & Island Resort (5:30 PM Onwards)</p>
+      </article>
+      <article class="infoCard">
+        <div class="icon">♡</div><h3>Wedding</h3>
+        <b>MONDAY, 25 JANUARY 2027</b>
+        <p><b>Reception:</b> PetRose Event Centre (From 7:00 PM)</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BALANCED CELEBRATIONS PAGE ================= -->
+<section class="page" id="celebrations">
+  <div class="content">
+    <div class="eyebrow">THE SPECIAL DAYS</div>
+    <h2>Celebrations & Venues</h2>
+    <div class="rule"></div>
+    
+    <div class="verse">“The Lord has done great things for us, and we are filled with joy.” — Psalm 126:3</div>
+    <div class="family-details">
+      <b>Anjali Sunil</b> (D/o Sunil C. Ezhanikattu & Roshni Varghese) &nbsp;·&nbsp; 
+      <b>Vinay C Shaju</b> (S/o Shaju Abraham & Nuby Shaju)
+    </div>
+
+    <!-- 1. ENGAGEMENT SECTION -->
+    <h3 class="section-subtitle">The Engagement · 21 January 2027</h3>
+    <div style="display: flex; justify-content: center; margin-top: 15px; margin-bottom: 30px;">
+      <article class="wCard" style="width: 100%; max-width: 500px;">
+        <div class="cross">✦</div><h3>Engagement Reception</h3>
+        <b>21 JANUARY 2027 · 5:30 PM ONWARDS</b>
+        <p>Bolgatty Palace & Island Resort<br>Kochi, Kerala</p>
+        <a href="#" target="_blank" class="mapBtn">RECEPTION LOCATION</a>
+      </article>
+    </div>
+
+    <!-- 2. WEDDING SECTION -->
+    <h3 class="section-subtitle">The Wedding · 25 January 2027</h3>
+    <div style="display: flex; justify-content: center; margin-top: 15px; margin-bottom: 30px;">
+      <article class="wCard" style="width: 100%; max-width: 500px;">
+        <div class="cross">♢</div><h3>Wedding Reception</h3>
+        <b>25 JANUARY 2027 · FROM 7:00 PM</b>
+        <p>PetRose Event Centre<br>Ernakulam, Kerala</p>
+        <a href="https://maps.app.goo.gl/xGJGjsD5CWBqq2oW9?g_st=aw" target="_blank" class="mapBtn">RECEPTION LOCATION</a>
+      </article>
+    </div>
+
+    <!-- Timeline Flow -->
+    <div style="margin-top: 30px;">
+      <div class="eyebrow">SCHEDULE FLOW</div>
+      <div class="timeline">
+        <div class="event">
+          <h3>Engagement Reception</h3>
+          <b>21 JANUARY 2027 · 5:30 PM ONWARDS</b>
+          <p>Bolgatty Palace & Island Resort · Kochi, Kerala</p>
+        </div>
+        <div class="event">
+          <h3>Holy Matrimony</h3>
+          <b>25 JANUARY 2027 · 2:30 PM</b>
+          <p>Marthoman Church · Mulanthuruthy, Kerala</p>
+        </div>
+        <div class="event">
+          <h3>Wedding Reception</h3>
+          <b>25 JANUARY 2027 · FROM 7:00 PM</b>
+          <p>PetRose Event Centre · Kerala</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="page" id="gallery">
+  <div class="content">
+    <div class="eyebrow">A FEW MEMORIES</div>
+    <h2>Our Gallery</h2>
+    <div class="rule"></div>
+    <div class="gallery">
+      <div class="g" data-img="photo_1.jpg">
+        <img src="photo_1.jpg" alt="Gallery Photo 1" onerror="this.style.display='none'">
+      </div>
+      <div class="g" data-img="photo_2.jpg">
+        <img src="photo_2.jpg" alt="Gallery Photo 2" onerror="this.style.display='none'">
+      </div>
+      <div class="g" data-img="photo_3.jpg">
+        <img src="photo_3.jpg" alt="Gallery Photo 3" onerror="this.style.display='none'">
+      </div>
+      <div class="g" data-img="photo_4.jpg">
+        <img src="photo_4.jpg" alt="Gallery Photo 4" onerror="this.style.display='none'">
+      </div>
+      <div class="g" data-img="photo_5.jpg">
+        <img src="photo_5.jpg" alt="Gallery Photo 5" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bottom">
+  <button id="prev">‹</button>
+  <div class="dots" id="dots"></div>
+  <button id="next">›</button>
+</div>
+
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="close" id="close">×</button>
+  <div class="largePhoto" id="lightboxPhotoContainer"></div>
+</div>
+
+<script>
+// --- Photo Download Protection (Disable right-click & dragging) ---
+document.addEventListener('contextmenu', e => {
+  e.preventDefault();
+});
+document.addEventListener('dragstart', e => {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+  }
+});
+
+// --- Nav & Page Logic ---
+const pages=[...document.querySelectorAll(".page")];
+const nav=[...document.querySelectorAll("nav button")];
+const dotsBox=document.getElementById("dots");
+let current=0;
+
+pages.forEach((p,i)=>{
+  const d=document.createElement("i");
+  d.className="dot"+(i===0?" active":"");
+  d.onclick=()=>go(i);
+  dotsBox.appendChild(d);
+});
+const dots=[...document.querySelectorAll(".dot")];
+
+function go(i){
+  current=(i+pages.length)%pages.length;
+  pages.forEach((p,n)=>p.classList.toggle("active",n===current));
+  nav.forEach(b=>b.classList.toggle("active",b.dataset.go===pages[current].id));
+  dots.forEach((d,n)=>d.classList.toggle("active",n===current));
+}
+
+nav.forEach(b=>b.onclick=()=>go(pages.findIndex(p=>p.id===b.dataset.go)));
+document.getElementById("prev").onclick=()=>go(current-1);
+document.getElementById("next").onclick=()=>go(current+1);
+
+// Key presses
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("site").classList.contains("show"))return;
+  if(e.key==="ArrowRight"||e.key==="ArrowDown")go(current+1);
+  if(e.key==="ArrowLeft"||e.key==="ArrowUp")go(current-1);
+});
+
+// Swipe to change pages (with safety for scratch card)
+let sy=0, isScratching = false;
+document.addEventListener("touchstart",e=>{
+  sy=e.changedTouches[0].screenY;
+},{passive:true});
+
+document.addEventListener("touchend",e=>{
+  if(!document.getElementById("site").classList.contains("show"))return;
+  if(isScratching) return; 
+  
+  const dy=e.changedTouches[0].screenY-sy;
+  if(Math.abs(dy)>55)go(current+(dy<0?1:-1));
+},{passive:true});
+
+// --- Cover opening ---
+document.getElementById("invitation").onclick=()=>{
+  const cover=document.getElementById("cover");
+  cover.classList.add("opening");
+  setTimeout(()=>{
+    cover.classList.add("hidden");
+    document.getElementById("site").classList.add("show");
+  },1200);
+};
+
+// --- Countdown ---
+const weddingDate=new Date("2027-01-21T17:30:00");
+function countdown(){
+  let d=Math.max(0,weddingDate-new Date());
+  document.getElementById("days").textContent=Math.floor(d/86400000);
+  document.getElementById("hours").textContent=String(Math.floor(d/3600000)%24).padStart(2,"0");
+  document.getElementById("mins").textContent=String(Math.floor(d/60000)%60).padStart(2,"0");
+  document.getElementById("secs").textContent=String(Math.floor(d/1000)%60).padStart(2,"0");
+}
+countdown();setInterval(countdown,1000);
+
+// --- Scratch Card Logic ---
+const canvas = document.getElementById('scratch-canvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+let isRevealed = false;
+
+function initScratchCard() {
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#c3a875');
+    gradient.addColorStop(0.2, '#f9ebb5');
+    gradient.addColorStop(0.5, '#a37c35');
+    gradient.addColorStop(0.8, '#e6ce93');
+    gradient.addColorStop(1, '#7a5a1f');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for(let i = 0; i < 4000; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)';
+        ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1.5, 1.5);
+    }
+
+    ctx.lineWidth = 1;
+    for(let i = 0; i < canvas.width + canvas.height; i += 18) {
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(0, i);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; ctx.stroke();
+    }
+    for(let i = 0; i < canvas.width + canvas.height; i += 18) {
+        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(i, 0);
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.05)'; ctx.stroke();
+    }
+}
+initScratchCard();
+
+function getPointerPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX; clientY = e.touches[0].clientY;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX; clientY = e.changedTouches[0].clientY;
+    } else {
+        clientX = e.clientX; clientY = e.clientY;
+    }
+    return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+}
+
+function scratch(e) {
+    if (!isDrawing || isRevealed) return;
+    e.preventDefault(); 
+    e.stopPropagation(); 
+    
+    const pos = getPointerPos(e);
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2); ctx.fill();
+    checkReveal();
+}
+
+function checkReveal() {
+    const stride = 15; 
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+    let transparentPixels = 0;
+    let totalSampledPixels = 0;
+
+    for (let i = 0; i < pixels.length; i += 4 * stride) {
+        totalSampledPixels++;
+        if (pixels[i + 3] < 128) transparentPixels++;
+    }
+
+    if ((transparentPixels / totalSampledPixels) * 100 > 35 && !isRevealed) {
+        isRevealed = true;
+        canvas.style.transition = 'opacity 0.6s ease';
+        canvas.style.opacity = '0';
+        setTimeout(() => { canvas.style.display = 'none'; }, 600);
+    }
+}
+
+canvas.addEventListener('mousedown', (e) => { isDrawing = true; isScratching = true; scratch(e); });
+canvas.addEventListener('mousemove', scratch);
+window.addEventListener('mouseup', () => { isDrawing = false; setTimeout(()=>{isScratching=false}, 100); }); 
+
+canvas.addEventListener('touchstart', (e) => { isDrawing = true; isScratching = true; scratch(e); }, {passive: false});
+canvas.addEventListener('touchmove', scratch, {passive: false});
+window.addEventListener('touchend', () => { isDrawing = false; setTimeout(()=>{isScratching=false}, 100); });
+
+// --- Lightbox & Image Click ---
+document.querySelectorAll(".g").forEach(x => {
+  x.onclick = () => {
+    const imgSrc = x.getAttribute("data-img");
+    const lightboxContainer = document.getElementById("lightboxPhotoContainer");
+    
+    const existingImg = lightboxContainer.querySelector("img");
+    if (existingImg) existingImg.remove();
+    
+    if (imgSrc) {
+      const img = new Image();
+      img.src = imgSrc;
+      img.onerror = () => { img.style.display = 'none'; };
+      lightboxContainer.appendChild(img);
+    }
+    
+    document.getElementById("lightbox").classList.add("show");
+  };
+});
+
+document.getElementById("close").onclick = () => {
+  document.getElementById("lightbox").classList.remove("show");
+};
+</script>
+</body>
+</html>
