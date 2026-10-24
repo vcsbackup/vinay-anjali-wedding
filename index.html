@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Vinay & Anjali | Wedding Invitation</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;700&family=Great+Vibes&display=swap');
 
 :root{
   --ruby: #74152d; 
@@ -23,6 +23,7 @@ html, body {
   height: 100dvh;
   overflow: hidden;
   position: fixed;
+  overscroll-behavior: none;
 }
 body{
   font-family:"DM Sans",sans-serif;
@@ -125,20 +126,20 @@ header{
 }
 .logo{display:none}
 nav{
-  width:100%;display:flex;justify-content:space-around;gap:8px;
-  padding:0 10px;
+  width:100%;display:flex;justify-content:space-around;gap:6px;
+  padding:0 8px;
 }
 nav button{
   background:none;border:0;border-bottom:2px solid transparent;
   padding:6px 2px;white-space:nowrap;
-  color:var(--wood);font-size:9px;font-weight:500;letter-spacing:1px; cursor:pointer;
+  color:var(--wood);font-size:9px;font-weight:500;letter-spacing:0.8px; cursor:pointer;
   transition: color 0.2s, border-color 0.2s;
 }
 nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
 
 .page{
   position:absolute;inset:0;
-  padding:70px 5% 65px;
+  padding:65px 4% 50px;
   display:none;align-items:center;justify-content:center;
 }
 .page.active{display:flex}
@@ -153,11 +154,13 @@ nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
 .content{
   width:100%;
   max-width:650px;
-  max-height:calc(100dvh - 135px);
+  max-height:calc(100dvh - 120px);
   overflow-y:auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 5px 2px;
+  padding: 5px 2px 25px;
+  touch-action: pan-y;
+  overscroll-behavior-y: contain;
 }
 .content::-webkit-scrollbar { display: none; }
 
@@ -166,7 +169,7 @@ nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
   text-shadow: 0 1px 3px rgba(255,255,255,0.9);
 }
 h2{
-  font:40px "Cormorant Garamond";font-weight:500;
+  font:38px "Cormorant Garamond";font-weight:500;
   text-align:center;color:var(--wood);margin:2px 0;
 }
 h3.section-subtitle{
@@ -182,13 +185,13 @@ h3.section-subtitle{
 /* Home Section Mobile-Optimized */
 .home{text-align:center}
 .home h1{
-  font:clamp(54px, 14vw, 88px) "Great Vibes";
+  font:clamp(52px, 13vw, 84px) "Great Vibes";
   color:var(--ruby);margin:5px 0;
   text-shadow: 0 2px 10px rgba(255, 248, 234, 0.95), 0 1px 2px rgba(0,0,0,0.1);
   line-height:1.1;
 }
 .place{
-  font:20px "Cormorant Garamond";letter-spacing:4px;color:var(--wood);
+  font:19px "Cormorant Garamond";letter-spacing:3.5px;color:var(--wood);
   text-shadow: 0 2px 6px rgba(255, 248, 234, 0.95);
 }
 .script{
@@ -308,19 +311,16 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
 }
 
-/* Bottom Navigation Controls */
+/* Minimal Bottom Dots (Side Arrows Removed) */
 .bottom{
-  position:fixed;z-index:21;bottom:10px;left:50%;
+  position:fixed;z-index:21;left:50%;
+  bottom:15px;
+  bottom:calc(15px + env(safe-area-inset-bottom, 0px));
   transform:translateX(-50%);
-  display:flex;align-items:center;gap:12px;
+  display:flex;align-items:center;justify-content:center;
 }
-.bottom button{
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid #c49a4d88;background:#fffaf1;color:var(--wood); cursor:pointer;
-  display:flex; align-items:center; justify-content:center; font-size:14px;
-}
-.dots{display:flex;gap:6px}
-.dot{width:6px;height:6px;border-radius:50%;background:#bd914b55;cursor:pointer}
+.dots{display:flex;gap:10px; padding: 6px 12px; background: rgba(255, 250, 239, 0.85); border-radius: 20px; border: 1px solid rgba(190,145,70,.25); backdrop-filter: blur(4px);}
+.dot{width:7px;height:7px;border-radius:50%;background:#bd914b55;cursor:pointer; transition: transform 0.2s, background 0.2s;}
 .dot.active{background:var(--ruby);transform:scale(1.4)}
 
 /* Lightbox Mobile */
@@ -512,9 +512,7 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
 </section>
 
 <div class="bottom">
-  <button id="prev">‹</button>
   <div class="dots" id="dots"></div>
-  <button id="next">›</button>
 </div>
 
 </main>
@@ -551,34 +549,37 @@ function go(i){
 }
 
 nav.forEach(b=>b.onclick=()=>go(pages.findIndex(p=>p.id===b.dataset.go)));
-document.getElementById("prev").onclick=()=>go(current-1);
-document.getElementById("next").onclick=()=>go(current+1);
 
-// Key presses
+// Keyboard navigation
 document.addEventListener("keydown",e=>{
   if(!document.getElementById("site").classList.contains("show"))return;
-  if(e.key==="ArrowRight"||e.key==="ArrowDown")go(current+1);
-  if(e.key==="ArrowLeft"||e.key==="ArrowUp")go(current-1);
+  if(e.key==="ArrowRight")go(current+1);
+  if(e.key==="ArrowLeft")go(current-1);
 });
 
-// Touch Swipe Navigation (optimized for mobile touch interaction)
-let sy=0, sx=0, isScratching = false;
-document.addEventListener("touchstart",e=>{
-  sy=e.changedTouches[0].screenY;
-  sx=e.changedTouches[0].screenX;
-},{passive:true});
+// Strict Horizontal Swipe Detection (Fixes Vertical Scrolling Bug)
+let sx=0, sy=0, isScratching = false;
 
-document.addEventListener("touchend",e=>{
-  if(!document.getElementById("site").classList.contains("show"))return;
-  if(isScratching) return; 
+document.addEventListener("touchstart", e => {
+  sx = e.changedTouches[0].screenX;
+  sy = e.changedTouches[0].screenY;
+}, {passive: true});
+
+document.addEventListener("touchend", e => {
+  if(!document.getElementById("site").classList.contains("show") || isScratching) return;
   
-  const dy=e.changedTouches[0].screenY-sy;
-  const dx=e.changedTouches[0].screenX-sx;
+  const dx = e.changedTouches[0].screenX - sx;
+  const dy = e.changedTouches[0].screenY - sy;
   
-  if(Math.abs(dy)>60 && Math.abs(dy) > Math.abs(dx)*1.2){
-    go(current+(dy<0?1:-1));
+  // Require at least 80px horizontal movement AND horizontal direction > vertical movement
+  if(Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2){
+    if (dx < 0) {
+      go(current + 1); // Swipe left -> Next page
+    } else {
+      go(current - 1); // Swipe right -> Previous page
+    }
   }
-},{passive:true});
+}, {passive: true});
 
 // --- Cover opening ---
 document.getElementById("invitation").onclick=()=>{
