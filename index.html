@@ -317,18 +317,6 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
 .verse{font-style:italic;color:var(--ruby);font-family:"Cormorant Garamond", serif;font-size:14px;text-align:center;margin:8px 0; line-height: 1.4;}
 .family-details{font-size:11px;margin:8px 0;line-height:1.4;color:var(--wood);text-align:center;}
 
-/* Timeline */
-.timeline{max-width:100%;margin:20px auto 10px;border-left:1px solid #bd914b88}
-.event{position:relative;padding:0 0 20px 20px}
-.event:before{
-  content:"";position:absolute;left:-5px;top:4px;
-  width:9px;height:9px;border-radius:50%;
-  background:var(--ruby);box-shadow:0 0 0 4px #c49a4d22
-}
-.event h3{font:24px "Cormorant Garamond";font-weight:500;margin:0;color:var(--wood)}
-.event b{font-size:9px;letter-spacing:1px;color:var(--ruby);display:block;margin:2px 0}
-.event p{font-size:12px;color:#77665d;margin:2px 0}
-
 .mapBtn{
   display:inline-block;padding:10px 18px;
   border:1px solid var(--ruby);color:var(--ruby);
@@ -479,19 +467,6 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
         <div class="count"><strong id="secs">--</strong><span>SECS</span></div>
       </div>
     </div>
-
-    <div class="cards">
-      <article class="infoCard">
-        <div class="icon">✦</div><h3>Engagement</h3>
-        <b>THURSDAY, 21 JANUARY 2027</b>
-        <p><b>Reception:</b> Bolgatty Palace & Island Resort (5:30 PM Onwards)</p>
-      </article>
-      <article class="infoCard">
-        <div class="icon">♡</div><h3>Wedding</h3>
-        <b>MONDAY, 25 JANUARY 2027</b>
-        <p><b>Reception:</b> PetRose Event Centre (From 7:00 PM)</p>
-      </article>
-    </div>
   </div>
 </section>
 
@@ -523,33 +498,20 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
     <h3 class="section-subtitle">The Wedding · 25 Jan 2027</h3>
     <div style="display: flex; justify-content: center; margin-bottom: 20px;">
       <article class="wCard" style="width: 100%;">
+        <div class="cross">✝</div><h3>Holy Matrimony</h3>
+        <b>25 JANUARY 2027 · 2:30 PM – 4:00 PM</b>
+        <p>Marthoman Church<br>Mulanthuruthy, Kerala</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Marthoman+Church+Mulanthuruthy+Kerala" target="_blank" rel="noopener noreferrer" class="mapBtn">CHURCH LOCATION</a>
+      </article>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+      <article class="wCard" style="width: 100%;">
         <div class="cross">♢</div><h3>Wedding Reception</h3>
         <b>25 JANUARY 2027 · FROM 7:00 PM</b>
         <p>PetRose Event Centre<br>Ernakulam, Kerala</p>
         <a href="https://www.google.com/maps/search/?api=1&query=PetRose+Event+Centre+Ernakulam+Kerala" target="_blank" rel="noopener noreferrer" class="mapBtn">RECEPTION LOCATION</a>
       </article>
-    </div>
-
-    <!-- Timeline Flow -->
-    <div style="margin-top: 25px;">
-      <div class="eyebrow">SCHEDULE FLOW</div>
-      <div class="timeline">
-        <div class="event">
-          <h3>Engagement Reception</h3>
-          <b>21 JANUARY 2027 · 5:30 PM ONWARDS</b>
-          <p>Bolgatty Palace & Island Resort · Kochi, Kerala</p>
-        </div>
-        <div class="event">
-          <h3>Holy Matrimony</h3>
-          <b>25 JANUARY 2027 · 2:30 PM</b>
-          <p>Marthoman Church · Mulanthuruthy, Kerala</p>
-        </div>
-        <div class="event">
-          <h3>Wedding Reception</h3>
-          <b>25 JANUARY 2027 · FROM 7:00 PM</b>
-          <p>PetRose Event Centre · Kerala</p>
-        </div>
-      </div>
     </div>
 
   </div>
