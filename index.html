@@ -16,20 +16,28 @@
   --orange: #b85f35;
 }
 *{box-sizing:border-box}
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
 html, body {
   margin: 0;
   width: 100%;
-  height: 100%;
-  height: 100dvh;
-  overflow: hidden;
-  position: fixed;
-  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 body{
   font-family:"DM Sans",sans-serif;
   background:var(--cream);
   color:#3d2923;
   -webkit-tap-highlight-color: transparent;
+  min-height:100vh;
+  min-height:100dvh;
+}
+/* Page can't be scrolled while the envelope is closed or a photo is open */
+body.locked, body.lb-open{
+  overflow:hidden;
+  height:100vh;
+  height:100dvh;
 }
 
 /* Prevent image dragging and selection globally */
@@ -110,15 +118,15 @@ img {
 
 /* ================= SITE ================= */
 #site{
-  position:fixed;inset:0;
-  transform:translateY(100%);
-  transition:transform 0.8s cubic-bezier(.15,.8,.2,1);
+  position:relative;
   background:var(--cream);
+  opacity:0;visibility:hidden;
+  transition:opacity .9s ease, visibility .9s;
 }
-#site.show{transform:translateY(0)}
+#site.show{opacity:1;visibility:visible}
 
 header{
-  position:fixed;z-index:20;top:0;left:0;right:0;height:60px;
+  position:sticky;z-index:20;top:0;height:60px;
   display:flex;align-items:center;justify-content:center;
   background:rgba(255,250,239,.95);
   border-bottom:1px solid rgba(190,145,70,.3);
@@ -138,11 +146,42 @@ nav button{
 nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
 
 .page{
-  position:absolute;inset:0;
-  padding:65px 4% 50px;
-  display:none;align-items:center;justify-content:center;
+  position:relative;
+  padding:64px 4% 56px;
+  scroll-margin-top:60px;
 }
-.page.active{display:flex}
+.page:last-of-type{padding-bottom:calc(64px + env(safe-area-inset-bottom, 0px))}
+/* thin gold divider with a small diamond between sections */
+.page:not(#home)::before{
+  content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:90px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.page:not(#home)::after{
+  content:"";position:absolute;top:-3px;left:50%;
+  width:7px;height:7px;margin-left:-3.5px;
+  background:var(--gold);transform:rotate(45deg);
+}
+#home{
+  min-height:calc(100vh - 60px);
+  min-height:calc(100dvh - 60px);
+  display:flex;align-items:center;justify-content:center;
+  padding:30px 4% 80px;
+}
+.scroll-cue{
+  position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom, 0px));
+  text-align:center;color:#a47735;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  pointer-events:none;
+}
+.scroll-cue i{
+  display:block;width:9px;height:9px;margin:8px auto 0;
+  border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);
+  transform:rotate(45deg);animation:cue 1.8s ease-in-out infinite;
+}
+@keyframes cue{
+  0%,100%{transform:translateY(0) rotate(45deg);opacity:.35}
+  50%{transform:translateY(6px) rotate(45deg);opacity:1}
+}
 
 /* Translucent Photo Background for Home with 0.55 Opacity */
 #home {
@@ -154,15 +193,26 @@ nav button.active,nav button:hover{color:var(--ruby);border-color:var(--gold)}
 .content{
   width:100%;
   max-width:650px;
-  max-height:calc(100dvh - 120px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 5px 2px 25px;
-  touch-action: pan-y;
-  overscroll-behavior-y: contain;
+  margin:0 auto;
+  padding: 5px 2px 0;
 }
-.content::-webkit-scrollbar { display: none; }
+
+/* gentle fade-up as sections scroll into view (class added by script) */
+.reveal{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* Confetti layer (drawn by script) */
+#confetti{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:150;
+}
 
 .eyebrow{
   text-align:center;font-size:8px;letter-spacing:3px;color:#a47735; text-transform: uppercase;
@@ -311,18 +361,6 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;
 }
 
-/* Minimal Bottom Dots (Side Arrows Removed) */
-.bottom{
-  position:fixed;z-index:21;left:50%;
-  bottom:15px;
-  bottom:calc(15px + env(safe-area-inset-bottom, 0px));
-  transform:translateX(-50%);
-  display:flex;align-items:center;justify-content:center;
-}
-.dots{display:flex;gap:10px; padding: 6px 12px; background: rgba(255, 250, 239, 0.85); border-radius: 20px; border: 1px solid rgba(190,145,70,.25); backdrop-filter: blur(4px);}
-.dot{width:7px;height:7px;border-radius:50%;background:#bd914b55;cursor:pointer; transition: transform 0.2s, background 0.2s;}
-.dot.active{background:var(--ruby);transform:scale(1.4)}
-
 /* Lightbox Mobile */
 .lightbox{
   position:fixed;z-index:40;inset:0;background:rgba(28, 7, 12, 0.96);
@@ -343,9 +381,9 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
 }
 
 /* Swipeable lightbox: all photos sit side by side in a track */
-.lightbox{padding:0;background:#12060a}
+.lightbox{padding:0;background:#12060a;touch-action:none;overscroll-behavior:contain}
 .largePhoto{
-  display:block;touch-action:pan-y;
+  display:block;touch-action:none;
   max-width:none;width:100%;
   height:calc(100dvh - 150px);
   background:transparent;border:0;border-radius:0;
@@ -372,7 +410,8 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
 }
 </style>
 </head>
-<body>
+<body class="locked">
+<canvas id="confetti"></canvas>
 
 <!-- ================= CLOSED INVITATION COVER ================= -->
 <section id="cover">
@@ -401,7 +440,7 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
   </nav>
 </header>
 
-<section class="page active" id="home">
+<section class="page" id="home">
   <div class="content home">
     <div class="eyebrow">A BEAUTIFUL BEGINNING</div>
     <h1>Vinay &amp; Anjali</h1>
@@ -413,6 +452,7 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
       <div class="pill">WEDDING · 25 JANUARY 2027</div>
     </div>
   </div>
+  <div class="scroll-cue">Scroll<i></i></div>
 </section>
 
 <section class="page" id="date">
@@ -540,10 +580,6 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
   </div>
 </section>
 
-<div class="bottom">
-  <div class="dots" id="dots"></div>
-</div>
-
 </main>
 
 <div class="lightbox" id="lightbox">
@@ -558,69 +594,115 @@ canvas#scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
 
-// --- Nav & Page Logic ---
-const pages=[...document.querySelectorAll(".page")];
-const nav=[...document.querySelectorAll("nav button")];
-const dotsBox=document.getElementById("dots");
-let current=0;
+// --- Scroll navigation ---
+const pages = [...document.querySelectorAll(".page")];
+const nav = [...document.querySelectorAll("nav button")];
+let isScratching = false;
 
-pages.forEach((p,i)=>{
-  const d=document.createElement("i");
-  d.className="dot"+(i===0?" active":"");
-  d.onclick=()=>go(i);
-  dotsBox.appendChild(d);
+nav.forEach(b => b.onclick = () => {
+  const target = document.getElementById(b.dataset.go);
+  if (!target) return;
+  if (target.id === "home") window.scrollTo({top: 0, behavior: "smooth"});
+  else target.scrollIntoView({behavior: "smooth", block: "start"});
 });
-const dots=[...document.querySelectorAll(".dot")];
 
-function go(i){
-  current=(i+pages.length)%pages.length;
-  pages.forEach((p,n)=>p.classList.toggle("active",n===current));
-  nav.forEach(b=>b.classList.toggle("active",b.dataset.go===pages[current].id));
-  dots.forEach((d,n)=>d.classList.toggle("active",n===current));
+// Highlight the nav item for the section currently on screen
+let navTick = false;
+function updateNav() {
+  navTick = false;
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+  let activeId = pages[0].id;
+  pages.forEach(p => { if (p.getBoundingClientRect().top <= 120) activeId = p.id; });
+  if (atBottom) activeId = pages[pages.length - 1].id;
+  nav.forEach(b => b.classList.toggle("active", b.dataset.go === activeId));
+}
+window.addEventListener("scroll", () => {
+  if (!navTick) { navTick = true; requestAnimationFrame(updateNav); }
+}, {passive: true});
+window.addEventListener("resize", updateNav);
+
+// Fade-up reveal as things scroll into view
+(function(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {rootMargin: "0px 0px -8% 0px", threshold: 0.08});
+  document.querySelectorAll(".page:not(#home) .content > *").forEach(el => {
+    el.classList.add("reveal");
+    io.observe(el);
+  });
+})();
+
+// --- Confetti (falls from the top like a celebration burst) ---
+function launchConfetti(opts) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const count = (opts && opts.count) || 150;
+  const cv = document.getElementById("confetti");
+  const cx = cv.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const W = window.innerWidth, H = window.innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr;
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const colors = ["#74152d", "#9a2a45", "#d7ae5d", "#e9cf8f", "#b88a32", "#f2dfb0"];
+  const bits = Array.from({length: count}, () => ({
+    x: Math.random() * W,
+    y: -20 - Math.random() * H * 0.7,            // staggered start above the screen
+    w: 5 + Math.random() * 5,
+    h: 9 + Math.random() * 8,
+    vx: (Math.random() - 0.5) * 1.1,
+    vy: 3.2 + Math.random() * 3,
+    rot: Math.random() * 360,
+    vr: (Math.random() - 0.5) * 9,
+    flip: Math.random() * 6.28,
+    vf: 0.08 + Math.random() * 0.14,
+    sway: Math.random() * 6.28,
+    amp: 0.3 + Math.random() * 0.9,
+    c: colors[(Math.random() * colors.length) | 0],
+    round: Math.random() < 0.25
+  }));
+
+  let last = performance.now();
+  (function frame(t) {
+    const dt = Math.min((t - last) / 16.67, 2.5); last = t;
+    cx.clearRect(0, 0, W, H);
+    let alive = 0;
+    for (const b of bits) {
+      b.sway += 0.05 * dt;
+      b.x += (b.vx + Math.sin(b.sway) * b.amp) * dt;
+      b.y += b.vy * dt;
+      b.rot += b.vr * dt;
+      b.flip += b.vf * dt;
+      if (b.y > H + 30) continue;
+      alive++;
+      cx.save();
+      cx.translate(b.x, b.y);
+      cx.rotate(b.rot * Math.PI / 180);
+      cx.scale(1, Math.cos(b.flip));              // tumbling effect
+      cx.fillStyle = b.c;
+      if (b.round) { cx.beginPath(); cx.arc(0, 0, b.w / 2, 0, 6.28); cx.fill(); }
+      else cx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+      cx.restore();
+    }
+    if (alive) requestAnimationFrame(frame);
+    else cx.clearRect(0, 0, W, H);
+  })(last);
 }
 
-nav.forEach(b=>b.onclick=()=>go(pages.findIndex(p=>p.id===b.dataset.go)));
-
-// Keyboard navigation
-document.addEventListener("keydown",e=>{
-  if(!document.getElementById("site").classList.contains("show"))return;
-  if(document.getElementById("lightbox").classList.contains("show"))return;
-  if(e.key==="ArrowRight")go(current+1);
-  if(e.key==="ArrowLeft")go(current-1);
-});
-
-// Strict Horizontal Swipe Detection (Fixes Vertical Scrolling Bug)
-let sx=0, sy=0, isScratching = false;
-
-document.addEventListener("touchstart", e => {
-  sx = e.changedTouches[0].screenX;
-  sy = e.changedTouches[0].screenY;
-}, {passive: true});
-
-document.addEventListener("touchend", e => {
-  if(!document.getElementById("site").classList.contains("show") || isScratching) return;
-  if(document.getElementById("lightbox").classList.contains("show")) return; // lightbox handles its own swipes
-  
-  const dx = e.changedTouches[0].screenX - sx;
-  const dy = e.changedTouches[0].screenY - sy;
-  
-  // Require at least 80px horizontal movement AND horizontal direction > vertical movement
-  if(Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2){
-    if (dx < 0) {
-      go(current + 1); // Swipe left -> Next page
-    } else {
-      go(current - 1); // Swipe right -> Previous page
-    }
-  }
-}, {passive: true});
-
 // --- Cover opening ---
+let opened = false;
 document.getElementById("invitation").onclick=()=>{
+  if (opened) return;
+  opened = true;
   const cover=document.getElementById("cover");
   cover.classList.add("opening");
+  setTimeout(launchConfetti, 800);
   setTimeout(()=>{
     cover.classList.add("hidden");
     document.getElementById("site").classList.add("show");
+    document.body.classList.remove("locked");
+    window.scrollTo(0, 0);
+    updateNav();
   },1000);
 };
 
@@ -702,6 +784,7 @@ function checkReveal() {
         canvas.style.transition = 'opacity 0.5s ease';
         canvas.style.opacity = '0';
         setTimeout(() => { canvas.style.display = 'none'; }, 500);
+        launchConfetti({count: 80});
     }
 }
 
@@ -749,10 +832,11 @@ function openLightbox(startSrc) {
   lbTotal = srcs.length;
   lbShow(Math.max(0, srcs.indexOf(startSrc)), false);
   lightbox.classList.add("show");
+  document.body.classList.add("lb-open");
   document.querySelector(".lb-hint").style.display = lbTotal > 1 ? "" : "none";
 }
 
-function closeLightbox() { lightbox.classList.remove("show"); }
+function closeLightbox() { lightbox.classList.remove("show"); document.body.classList.remove("lb-open"); }
 
 document.querySelectorAll(".g").forEach(x => {
   x.onclick = () => openLightbox(x.getAttribute("data-img"));
